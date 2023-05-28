@@ -1,8 +1,22 @@
 <script setup>
-import { ref, watch, computed} from 'vue'
+import { ref, watch, computed, onBeforeUnmount } from 'vue'
 
-const name = ref('')
 const hints = ref([])
+const ops = ref(null)
+
+const name = computed({
+    get() {
+        return props.modelValue
+    },
+    set(value) {
+        emit('update:modelValue', value)
+        isFinished(value)
+    }
+})
+
+const props = defineProps(['modelValue'])
+
+const emit = defineEmits(['update:modelValue', 'finished'])
 
 watch(name, async (value, old) => {
     // console.log("Watcher:", value, old)
@@ -12,37 +26,56 @@ watch(name, async (value, old) => {
     }
 
     if(Math.abs(value.length - old.length) === 1) {
-        try {
-            const res = await fetch(`/api/srp/congregations/search/${value}`)
-            hints.value = await res.json()
-        }
-        catch(e) {
-            console.debug(e)
-        }
+        if(ops.value) clearTimeout(ops.value)
+        ops.value = setTimeout(getHints, 500)
     }
 })
 
-const btnDisabled = computed(() => {
-    return !hints.value.includes(name.value)
+async function getHints() {
+    try {
+        const res = await fetch(`/api/sra/search/congregations/${name.value}`)
+        if(res.status === 200) {
+            hints.value = await res.json()
+            isFinished(name.value)
+        }
+    }
+    catch(e) {
+        console.debug(e)
+    }
+}
+
+onBeforeUnmount(() => {
+    if(ops.value) clearTimeout(ops.value)
 })
+
+function isFinished(value) {
+    let b = hints.value.length == 1 && hints.value.includes(value)
+    emit('finished', b)
+}
 </script>
 
 <template>
-    <div class="input-group input-group-lg">
-        <span class="input-group-text">Wpisz nazwę zboru:</span>
-        
+    <div>
+        <label class="form-label">
+            Nazwa zboru
+        </label>
+
         <input 
             v-model="name"
             type="text" 
-            class="form-control"
-            list="hints" />
+            class="form-control form-select-lg"
+            list="hints"
+            placeholder="Wpisz 3 znaki i poczekaj chwilkę"
+            title="Wpisz 3 znaki i poczekaj chwilkę, a pojawi się lista podpowiedzi ułatwiająca wybór nazwy zboru"
+        />
+        <small>
+            Wpisz 3 znaki i poczekaj chwilkę, a pojawi się lista podpowiedzi ułatwiająca wybór nazwy zboru
+        </small>
+
         <datalist id="hints">
-            <option v-for="(item, index) in hints" :value="item" :key="index" />
-        </datalist>
-        
-        <button class="btn btn-primary btn-lg" :disabled="btnDisabled">
-            <i class="fa-solid fa-chevron-right" />
-            Dalej
-        </button>
+            <option v-for="(item, index) in hints" :key="index" 
+                :value="item"
+            />
+        </datalist>       
     </div>
 </template>
