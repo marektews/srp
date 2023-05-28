@@ -9,22 +9,20 @@ const props = defineProps(['congregationName'])
 const emit = defineEmits(['back', 'next'])
 
 const genStatus = ref(0)
-const genStatusText = ref('')
+const validInputs = ref([undefined, undefined, undefined])
 const useManyCars = ref(false)
-const _regNumber1 = ref('')
-const _regNumber2 = ref('')
-const _regNumber3 = ref('')
+const regNumbers = ref(['', '', ''])
 const regNumber1 = computed({
-    get() { return _regNumber1.value },
-    set(v) { _regNumber1.value = v.toUpperCase() }
+    get() { return regNumbers.value[0] },
+    set(v) { regNumbers.value[0] = v.toUpperCase() }
 })
 const regNumber2 = computed({
-    get() { return _regNumber2.value },
-    set(v) { _regNumber2.value = v.toUpperCase() }
+    get() { return regNumbers.value[1] },
+    set(v) { regNumbers.value[1] = v.toUpperCase() }
 })
 const regNumber3 = computed({
-    get() { return _regNumber3.value },
-    set(v) { _regNumber3.value = v.toUpperCase() }
+    get() { return regNumbers.value[2] },
+    set(v) { regNumbers.value[2] = v.toUpperCase() }
 })
 
 function onGenerateID() {
@@ -35,7 +33,7 @@ function onGenerateID() {
         regnum3: regNumber3.value,
     }
     console.log('Generate SRP pass card source data:', data)
-    fetch('/api/srp/generate', {
+    fetch('/api/srp/create', {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -46,8 +44,6 @@ function onGenerateID() {
         genStatus.value = response.status
         if(response.status === 200)
             return response.json()
-        else
-            return {}
     })
     .then(data => {
         emit('next', data.passID)
@@ -58,15 +54,27 @@ function onGenerateID() {
 }
 
 const isGenButtonDisabled = computed(() => {
-    if(useManyCars.value) {
-        return regNumber1.value.length === 0
-            || regNumber2.value.length === 0
-            || regNumber3.value.length === 0
+    console.log('isGenButtonDisabled: enter:', validInputs.value, regNumbers.value)
+    try {
+        if(useManyCars.value) {
+            validInputs.value.forEach((v) => { if(!v) throw new Error("100") })
+            regNumbers.value.forEach((v) => { if(v.length == 0) throw new Error("200") })
+            return false
+        }
+        else {
+            return regNumber1.value.length === 0 
+                || !validInputs.value[0]
+        }
     }
-    else {
-        return regNumber1.value.length === 0
+    catch(e) {
+        console.log('isGenButtonDisabled: disable after throw:', e)
+        return true
     }
 })
+
+function onInputValid(input_nr, valid) {
+    validInputs.value[input_nr] = valid
+}
 </script>
 
 <template>
@@ -74,7 +82,7 @@ const isGenButtonDisabled = computed(() => {
         <CarsInfo />
 
         <div class="mt-4">
-            <label class="form-label">Wpisz numer rejestracyjny pojazdu</label>
+            <label class="form-label">Wpisz numer rejestracyjny pojazdu (bez spacji i innych separatorów)</label>
             <div class="form-check">
                 <input class="form-check-input" id="sdf" type="checkbox" v-model="useManyCars"/>
                 <label class="form-check-label" for="sdf">
@@ -85,7 +93,11 @@ const isGenButtonDisabled = computed(() => {
             <ValidityInput v-if="!useManyCars"
                 v-model="regNumber1"
                 class="form-control form-control-lg mt-2"
+                pattern="[a-zA-Z0-9\u0400-\u04ff]{1,12}"
+                max-length="12"
                 required
+                @valid="onInputValid(0, $event)"
+                @input="genStatus = 0"
             />
             
             <div v-else class="days-layout mt-2">
@@ -93,22 +105,38 @@ const isGenButtonDisabled = computed(() => {
                 <ValidityInput
                     v-model="regNumber1"
                     class="form-control form-control-lg"
+                    pattern="[a-zA-Z0-9\u0400-\u04ff]{1,12}"
+                    max-length="12"
                     required
+                    @valid="onInputValid(0, $event)"
+                    @input="genStatus = 0"
                 />
 
                 <div>Sobota:</div>
                 <ValidityInput
                     v-model="regNumber2"
                     class="form-control form-control-lg"
+                    pattern="[a-zA-Z0-9\u0400-\u04ff]{1,12}"
+                    max-length="12"
                     required
+                    @valid="onInputValid(1, $event)"
+                    @input="genStatus = 0"
                 />
 
                 <div>Niedziela:</div>
                 <ValidityInput
                     v-model="regNumber3"
                     class="form-control form-control-lg"
+                    pattern="[a-zA-Z0-9\u0400-\u04ff]{1,12}"
+                    max-length="12"
                     required
+                    @valid="onInputValid(2, $event)"
+                    @input="genStatus = 0"
                 />
+            </div>
+
+            <div v-if="genStatus === 400" class="mt-4 alert alert-danger">
+                Podany pojazd jest już wpisany do innego identyfikatora
             </div>
         </div>
 

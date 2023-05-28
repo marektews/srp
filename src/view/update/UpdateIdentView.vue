@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import BackButton from '@/components/btns/BackButton.vue'
 import CertificateButton from '@/components/btns/CertificateButton.vue'
 import ValidityInput from '@/components/input/ValidityInput.vue'
@@ -23,6 +23,18 @@ const regNumber2 = computed({
 const regNumber3 = computed({
     get() { return _regNumber3.value },
     set(v) { _regNumber3.value = v.toUpperCase() }
+})
+
+onMounted(() => {
+    fetch(`/api/srp/read/${props.passId}`)
+    .then(response => response.json())
+    .then(data => {
+        regNumber1.value = data.regnum1
+        regNumber2.value = data.regnum2
+        regNumber3.value = data.regnum3
+        useManyCars.value = data.regnum3.length > 0
+    })
+    .catch(err => console.error('SRP load update info error:', err))
 })
 
 function onSaveAndGenerate() {

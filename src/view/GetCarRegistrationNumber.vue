@@ -8,6 +8,7 @@ const props = defineProps(['congregationName'])
 
 const _regNumber = ref('')
 const showAlert = ref(false)
+const inputValid = ref(undefined)
 
 const regNumber = computed({
     get() { return _regNumber.value },
@@ -40,8 +41,11 @@ function onCheckRegNumber() {
     <div>
         <ValidityInputGroup
             v-model="regNumber"
-            title="Wpisz dowolny numer rejestracyjny pojazdu z aktualnego identyfikatora"
+            title="Wpisz dowolny numer rejestracyjny pojazdu z aktualnego identyfikatora (bez spacji i innych separatorów)"
+            pattern="[a-zA-Z0-9\u0400-\u04ff]{1,12}"
+            max-length="12"
             required
+            @valid="inputValid = $event"
             @input="showAlert = false"
         />
 
@@ -51,7 +55,7 @@ function onCheckRegNumber() {
 
         <FooterButtons 
             class="mt-5"
-            :next-enabled="regNumber.length !== 0"
+            :next-enabled="regNumber.length !== 0 && inputValid"
             @next="onCheckRegNumber"
             @back="$emit('back')"
         />
