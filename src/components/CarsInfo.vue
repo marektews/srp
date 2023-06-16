@@ -11,7 +11,7 @@
         <div class="ms-2">
             Prosimy również pamiętać, że ze względów bezpieczeństwa,
             na parking pod trybuną stadionu <b>nie zostaną wpuszczone 
-            pojazdy elektryczne lub posiadające instalację LPG</b>.
+            pojazdy posiadające instalację LPG</b>.
         </div>
     </div>
 </template>
