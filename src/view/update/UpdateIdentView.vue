@@ -6,7 +6,7 @@ import ValidityInput from '@/components/input/ValidityInput.vue'
 import CarsInfo from '@/components/CarsInfo.vue'
 
 const props = defineProps(['passId'])
-const emit = defineEmits(['back'])
+const emit = defineEmits(['back', 'next'])
 
 const useManyCars = ref(false)
 const _regNumber1 = ref('')
@@ -41,8 +41,8 @@ function onSaveAndGenerate() {
     let data = {
         passid: props.passId,
         regnum1: regNumber1.value,
-        regnum2: regNumber2.value,
-        regnum3: regNumber3.value,
+        regnum2: useManyCars.value ? regNumber2.value : '',
+        regnum3: useManyCars.value ? regNumber3.value : '',
     }
     console.log('Update SRP pass card source data:', data)
     fetch('/api/srp/update', {
