@@ -6,14 +6,14 @@
             <li>Można na jeden identyfikator zgłosić wjazd różnych pojazdów, ale tylko w różne dni.</li>
         </ol>
     </div>
-    <div class="mt-3 alert alert-danger alert-layout">
+    <!-- <div class="mt-3 alert alert-danger alert-layout">
         <i class="fa-solid fa-triangle-exclamation" />
         <div class="ms-2">
             Prosimy również pamiętać, że ze względów bezpieczeństwa,
             na parking pod trybuną stadionu <b>nie zostaną wpuszczone 
             pojazdy posiadające instalację LPG</b>.
         </div>
-    </div>
+    </div> -->
 </template>
 
 <style scoped>

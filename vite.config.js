@@ -15,8 +15,7 @@ export default defineConfig({
     server: {
         proxy: {
             '/api': {
-                target: 'http://127.0.0.1:5000',
-                // target: "https://kw23.ddns.net/",
+                target: "http://krw.ddns.net/",
                 changeOrigin: true,
                 secure: false,
             }

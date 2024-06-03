@@ -54,10 +54,10 @@ function onDownloadPassID() {
             <div class="card-body">
                 <h3>Mapa dojazdu</h3>
                 <p class="card-text">
-                    Mapka pokazuje umiejscowienie wjazdu na parking pod trybuną stadionu.
+                    Mapka pokazuje umiejscowienie wjazdu na parking Lodowiska.
                 </p>
-                <a href="parking-mapa.pdf" download="parking-mapa.pdf" class="btn btn-lg btn-primary">
-                    <i class="fa-solid fa-file-pdf" />
+                <a href="torwar-lodowiska-mapa.png" download="torwar-lodowiska-mapa.png" class="btn btn-lg btn-primary">
+                    <i class="fa-solid fa-file-image" />
                     Pobierz mapę
                 </a>
             </div>

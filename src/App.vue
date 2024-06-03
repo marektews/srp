@@ -20,7 +20,7 @@ const passID = ref(-1)
             <img width="48" height="48" src="@/assets/Parking_icon.svg" />
             <div>
                 <div class="hdr-title">Identyfikator parkingowy</div>
-                <div class="hdr-subtitle">Identyfikacja pojazdów uprawnionych do wjazdu na parking pod trybuną stadionu</div>
+                <div class="hdr-subtitle">Identyfikacja pojazdów uprawnionych do wjazdu na parking Lodowiska</div>
             </div>
         </header>
 
