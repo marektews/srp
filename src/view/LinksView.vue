@@ -56,7 +56,7 @@ function onDownloadPassID() {
                 <p class="card-text">
                     Mapka pokazuje umiejscowienie wjazdu na parking Lodowiska.
                 </p>
-                <a href="torwar-lodowiska-mapa.png" download="torwar-lodowiska-mapa.png" class="btn btn-lg btn-primary">
+                <a href="parking-lodowiska-mapa.png" download="parking-lodowiska-mapa.png" class="btn btn-lg btn-primary">
                     <i class="fa-solid fa-file-image" />
                     Pobierz mapę
                 </a>
