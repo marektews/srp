@@ -40,5 +40,17 @@ const emit = defineEmits(['step'])
                 </button>
             </div>
         </div>
+
+        <div class="mt-4 card text-bg-dark">
+            <div class="card-body">
+                <h5 class="card-title">Mapa dojazdu</h5>
+                <h6 class="card-subtitle my-3 text-muted">
+                    Mapka pokazuje umiejscowienie wjazdu na parking Lodowiska.
+                </h6>
+                <a href="parking-lodowiska-mapa.png" download="parking-lodowiska-mapa.png" class="btn btn-lg btn-outline-primary">
+                    Pobierz mapę
+                </a>
+            </div>
+        </div>        
     </div>
 </template>
