@@ -1,4 +1,7 @@
 <script setup>
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faDownload, faMap, faPlus, faPen } from '@fortawesome/free-solid-svg-icons';
+
 const emit = defineEmits(['step'])
 </script>
 
@@ -12,7 +15,7 @@ const emit = defineEmits(['step'])
                     aby otrzymać przepustkę uprawniającą do wjazdu na parking Lodowiska
                 </h6>
                 <button class="btn btn-outline-primary btn-lg" @click="emit('step', 10)">
-                    Wygeneruj
+                    <FontAwesomeIcon :icon="faPlus" /> Wygeneruj
                 </button>
             </div>
         </div>
@@ -24,7 +27,7 @@ const emit = defineEmits(['step'])
                     Jeśli posiadasz już wygenerowany identyfikator i chcesz dokonać zmiany pojazdu
                 </h6>
                 <button class="btn btn-outline-primary btn-lg" @click="emit('step', 20)">
-                    Aktualizuj
+                    <FontAwesomeIcon :icon="faPen" /> Aktualizuj
                 </button>
             </div>
         </div>
@@ -36,7 +39,7 @@ const emit = defineEmits(['step'])
                     Jeśli posiadasz już wygenerowany identyfikator i chcesz tylko ponownie go pobrać i wydrukować
                 </h6>
                 <button class="btn btn-outline-primary btn-lg" @click="emit('step', 30)">
-                    Pobieranie
+                    <FontAwesomeIcon :icon="faDownload" /> Pobieranie
                 </button>
             </div>
         </div>
@@ -48,7 +51,7 @@ const emit = defineEmits(['step'])
                     Mapka pokazuje umiejscowienie wjazdu na parking Lodowiska.
                 </h6>
                 <a href="parking-lodowiska-mapa.png" download="parking-lodowiska-mapa.png" class="btn btn-lg btn-outline-primary">
-                    Pobierz mapę
+                    <FontAwesomeIcon :icon="faMap" /> Pobierz mapę
                 </a>
             </div>
         </div>        
