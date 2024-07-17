@@ -1,5 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faTriangleExclamation, faFaceSadTear } from '@fortawesome/free-solid-svg-icons';
 import FooterButtons from '@/components/btns/FooterButtons.vue'
 
 const props = defineProps(['congregationName'])
@@ -21,7 +23,7 @@ onMounted(() => {
 
 <template>
     <div v-if="checkResult === 404" class="alert alert-danger alert-layout">
-        <i class="fa-solid fa-triangle-exclamation" />
+        <FontAwesomeIcon :icon="faTriangleExclamation" />
         <div>
             <div>Niestety, wszystkie identyfikatory zostały już wykorzystane.</div>
             <div>Poproś starszych ze swojego zboru o wyjaśnienie tej sprawy.</div>
@@ -29,7 +31,7 @@ onMounted(() => {
     </div>
 
     <div v-else-if="checkResult === 500" class="alert alert-danger alert-layout">
-        <i class="fa-solid fa-face-sad-tear" />
+        <FontAwesomeIcon :icon="faFaceSadTear" />
         <div>
             <div>Przepraszamy, ale serwer zgłosił błąd.</div>
             <div>Odczekaj chwilę i spróbuj ponownie.</div>

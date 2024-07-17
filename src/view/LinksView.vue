@@ -1,8 +1,10 @@
 <script setup>
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faFilePdf, faFileImage } from '@fortawesome/free-solid-svg-icons';
 import BackButton from '@/components/btns/BackButton.vue'
 
 const props = defineProps({
-    passId: { type: Number },
+    passId: { type: String },
 })
 
 defineEmits(['back'])
@@ -44,7 +46,7 @@ function onDownloadPassID() {
                     - przyśpieszy to odprawę przy bramie wjazdowej na parking.
                 </p>
                 <button class="btn btn-lg btn-primary" @click="onDownloadPassID">
-                    <i class="fa-solid fa-file-pdf" />
+                    <FontAwesomeIcon :icon="faFilePdf" />
                     Pobierz identyfikator
                 </button>
             </div>
@@ -54,10 +56,10 @@ function onDownloadPassID() {
             <div class="card-body">
                 <h3>Mapa dojazdu</h3>
                 <p class="card-text">
-                    Mapka pokazuje umiejscowienie wjazdu na parking Lodowiska.
+                    Mapka pokazuje umiejscowienie wjazdu na parking dla niepełnosprawnych.
                 </p>
-                <a href="parking-lodowiska-mapa.png" download="parking-lodowiska-mapa.png" class="btn btn-lg btn-primary">
-                    <i class="fa-solid fa-file-image" />
+                <a href="parking-niepelnosprawni-mapa.png" download="parking-niepelnosprawni-mapa.png" class="btn btn-lg btn-primary">
+                    <FontAwesomeIcon :icon="faFileImage" />
                     Pobierz mapę
                 </a>
             </div>

@@ -1,4 +1,7 @@
 <script setup>
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faDownload, faMap, faPlus, faPen } from '@fortawesome/free-solid-svg-icons';
+
 const emit = defineEmits(['step'])
 </script>
 
@@ -9,10 +12,10 @@ const emit = defineEmits(['step'])
                 <h5 class="card-title">Nowy identyfikator parkingowy</h5>
                 <h6 class="card-subtitle my-3 text-muted">
                     Wygeneruj identyfikator, 
-                    aby otrzymać przepustkę uprawniającą do wjazdu na parking Lodowiska
+                    aby otrzymać przepustkę uprawniającą do wjazdu na parking dla niepełnosprawnych.
                 </h6>
                 <button class="btn btn-outline-primary btn-lg" @click="emit('step', 10)">
-                    Wygeneruj
+                    <FontAwesomeIcon :icon="faPlus" /> Wygeneruj
                 </button>
             </div>
         </div>
@@ -24,7 +27,7 @@ const emit = defineEmits(['step'])
                     Jeśli posiadasz już wygenerowany identyfikator i chcesz dokonać zmiany pojazdu
                 </h6>
                 <button class="btn btn-outline-primary btn-lg" @click="emit('step', 20)">
-                    Aktualizuj
+                    <FontAwesomeIcon :icon="faPen" /> Aktualizuj
                 </button>
             </div>
         </div>
@@ -36,7 +39,7 @@ const emit = defineEmits(['step'])
                     Jeśli posiadasz już wygenerowany identyfikator i chcesz tylko ponownie go pobrać i wydrukować
                 </h6>
                 <button class="btn btn-outline-primary btn-lg" @click="emit('step', 30)">
-                    Pobieranie
+                    <FontAwesomeIcon :icon="faDownload" /> Pobieranie
                 </button>
             </div>
         </div>
@@ -45,10 +48,10 @@ const emit = defineEmits(['step'])
             <div class="card-body">
                 <h5 class="card-title">Mapa dojazdu</h5>
                 <h6 class="card-subtitle my-3 text-muted">
-                    Mapka pokazuje umiejscowienie wjazdu na parking Lodowiska.
+                    Mapka pokazuje umiejscowienie wjazdu na parking dla niepełnosprawnych.
                 </h6>
-                <a href="parking-lodowiska-mapa.png" download="parking-lodowiska-mapa.png" class="btn btn-lg btn-outline-primary">
-                    Pobierz mapę
+                <a href="parking-niepelnosprawni-mapa.png" download="parking-niepelnosprawni-mapa.png" class="btn btn-lg btn-outline-primary">
+                    <FontAwesomeIcon :icon="faMap" /> Pobierz mapę
                 </a>
             </div>
         </div>        

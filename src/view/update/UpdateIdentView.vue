@@ -41,8 +41,8 @@ function onSaveAndGenerate() {
     let data = {
         passid: props.passId,
         regnum1: regNumber1.value,
-        regnum2: useManyCars.value ? regNumber2.value : '',
-        regnum3: useManyCars.value ? regNumber3.value : '',
+        regnum2: useManyCars.value ? regNumber2.value : null,
+        regnum3: useManyCars.value ? regNumber3.value : null,
     }
     console.log('Update SRP pass card source data:', data)
     fetch('/api/srp/update', {
