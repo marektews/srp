@@ -11,6 +11,10 @@ const emit = defineEmits(['back', 'next'])
 const genStatus = ref(0)
 const validInputs = ref([undefined, undefined, undefined])
 const useManyCars = ref(false)
+const lpg1 = ref(false)
+const lpg2 = ref(false)
+const lpg3 = ref(false)
+const mobilityRestrictions = ref(false)
 const regNumbers = ref(['', '', ''])
 const regNumber1 = computed({
     get() { return regNumbers.value[0] },
@@ -28,10 +32,23 @@ const regNumber3 = computed({
 function onGenerateID() {
     let data = {
         congregation: props.congregationName,
-        regnum1: regNumber1.value,
-        regnum2: regNumber2.value,
-        regnum3: regNumber3.value,
+        smr: mobilityRestrictions.value,
+        car1: {
+            regnum: regNumber1.value,
+            lpg: lpg1.value,
+        },
     }
+    if(useManyCars.value) {
+        data.car2 = {
+            regnum: regNumber2.value,
+            lpg: lpg2.value,
+        }
+        data.car3 = {
+            regnum: regNumber3.value,
+            lpg: lpg3.value,
+        }
+    }
+
     console.log('Generate SRP pass card source data:', data)
     fetch('/api/srp/create', {
         method: "POST",
@@ -62,8 +79,7 @@ const isGenButtonDisabled = computed(() => {
             return false
         }
         else {
-            return regNumber1.value.length === 0 
-                || !validInputs.value[0]
+            return regNumber1.value.length === 0 || !validInputs.value[0]
         }
     }
     catch(e) {
@@ -90,15 +106,23 @@ function onInputValid(input_nr, valid) {
                 </label>
             </div>
 
-            <ValidityInput v-if="!useManyCars"
-                v-model="regNumber1"
-                class="form-control form-control-lg mt-2"
-                pattern="[a-zA-Z0-9\u0400-\u04ff]{1,12}"
-                max-length="12"
-                required
-                @valid="onInputValid(0, $event)"
-                @input="genStatus = 0"
-            />
+            <div v-if="!useManyCars" class="one-car-layout mt-2">
+                <ValidityInput 
+                    v-model="regNumber1"
+                    class="form-control form-control-lg"
+                    pattern="[a-zA-Z0-9\u0400-\u04ff]{1,12}"
+                    max-length="12"
+                    required
+                    @valid="onInputValid(0, $event)"
+                    @input="genStatus = 0"
+                />
+                <div class="form-check">
+                    <input class="form-check-input" id="lpg1" type="checkbox" v-model="lpg1"/>
+                    <label class="form-check-label" for="lpg1">
+                        Pojazd z instalacją gazową (LPG)
+                    </label>
+                </div>
+            </div>
             
             <div v-else class="days-layout mt-2">
                 <div>Piątek:</div>
@@ -111,6 +135,12 @@ function onInputValid(input_nr, valid) {
                     @valid="onInputValid(0, $event)"
                     @input="genStatus = 0"
                 />
+                <div class="form-check mt-1">
+                    <input class="form-check-input" id="lpg1" type="checkbox" v-model="lpg1"/>
+                    <label class="form-check-label" for="lpg1">
+                        Pojazd z instalacją gazową (LPG)
+                    </label>
+                </div>
 
                 <div>Sobota:</div>
                 <ValidityInput
@@ -122,6 +152,12 @@ function onInputValid(input_nr, valid) {
                     @valid="onInputValid(1, $event)"
                     @input="genStatus = 0"
                 />
+                <div class="form-check">
+                    <input class="form-check-input" id="lpg2" type="checkbox" v-model="lpg2"/>
+                    <label class="form-check-label" for="lpg2">
+                        Pojazd z instalacją gazową (LPG)
+                    </label>
+                </div>
 
                 <div>Niedziela:</div>
                 <ValidityInput
@@ -133,6 +169,19 @@ function onInputValid(input_nr, valid) {
                     @valid="onInputValid(2, $event)"
                     @input="genStatus = 0"
                 />
+                <div class="form-check">
+                    <input class="form-check-input" id="lpg3" type="checkbox" v-model="lpg3"/>
+                    <label class="form-check-label" for="lpg3">
+                        Pojazd z instalacją gazową (LPG)
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-check mt-4">
+                <input class="form-check-input" id="smr" type="checkbox" v-model="mobilityRestrictions"/>
+                <label class="form-check-label" for="smr">
+                    Czy osoby które przyjadą będą miały poważne ograniczenia ruchowe? (wózek, chodzik, itp.)
+                </label>
             </div>
 
             <div v-if="genStatus === 400" class="mt-4 alert alert-danger">
@@ -145,7 +194,7 @@ function onInputValid(input_nr, valid) {
             :disabled="isGenButtonDisabled"
             @click="onGenerateID"
         >
-            Generuj identyfikator
+            Wyślij wniosek rejestracyjny
         </CertificateButton>
         <BackButton 
             class="mt-5 ms-2" 
@@ -155,9 +204,16 @@ function onInputValid(input_nr, valid) {
 </template>
 
 <style scoped>
+.one-car-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9pt 2rem;
+    align-items: center;
+}
+
 .days-layout {
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: auto 1fr 1fr;
     gap: 9pt 2rem;
     align-items: center;
 }

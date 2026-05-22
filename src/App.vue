@@ -7,6 +7,7 @@ import NumberOfUsesTestView from './view/create/NumberOfUsesTestView.vue'
 import LinksView from './view/LinksView.vue'
 import GetCarRegistrationNumber from './view/GetCarRegistrationNumber.vue'
 import UpdateIdentView from './view/update/UpdateIdentView.vue'
+import LimitView from './view/limit/LimitView.vue'
 
 const step = ref(0)
 const congregationName = ref('')
@@ -17,7 +18,8 @@ const passID = ref(-1)
 <template>
     <div class="container">
         <header>
-            <img width="48" height="48" src="@/assets/Parking_icon.svg" />
+            <!-- <img width="48" height="48" src="@/assets/Parking_icon.svg" /> -->
+            <img width="96" src="@/assets/event-logo-full.svg" />
             <div>
                 <div class="hdr-title">Identyfikator parkingowy</div>
                 <div class="hdr-subtitle">Identyfikacja pojazdów uprawnionych do wjazdu na parking dla niepełnosprawnych</div>
@@ -29,7 +31,8 @@ const passID = ref(-1)
                 v-model="congregationName"
                 @next="step = 1"
             />
-            <MainManuView v-else-if="step === 1" 
+            <MainManuView v-else-if="step === 1"
+                :congregation-name="congregationName"
                 @step="step = $event"
             />
 
@@ -43,6 +46,12 @@ const passID = ref(-1)
                 :congregation-name="congregationName"
                 @back="step = 1"
                 @next="step = 31; passID = $event"
+            />
+
+            <!-- Zwiększanie limitu -->
+            <LimitView v-else-if="step === 12"
+                :congregation-name="congregationName"
+                @back="step = 1"
             />
 
             <!-- Aktualizacja istniejącego -->

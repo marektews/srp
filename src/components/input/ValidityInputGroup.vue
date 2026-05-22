@@ -5,7 +5,7 @@ const inputCtrl = ref(null)
 const valid = ref(null)
 
 const props = defineProps({
-    modelValue: { type: String },
+    modelValue: { type: [String, Number] },
     title: { type: String, default: "" },
     type: { type: String, default: "text" },
     maxLength: { type: String, default: "" },

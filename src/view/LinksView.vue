@@ -1,4 +1,5 @@
 <script setup>
+import { ref, onMounted } from 'vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faFilePdf, faFileImage } from '@fortawesome/free-solid-svg-icons';
 import BackButton from '@/components/btns/BackButton.vue'
@@ -6,8 +7,23 @@ import BackButton from '@/components/btns/BackButton.vue'
 const props = defineProps({
     passId: { type: String },
 })
+const gen_idents_enabled = ref(false)
 
 defineEmits(['back'])
+
+onMounted(() => {
+    fetch('/api/config/all')
+    .then(resp => {
+        if(resp.ok)
+            return resp.json()
+    })
+    .then(data => {
+        gen_idents_enabled.value = data.generate_idents.srp
+    })
+    .catch(e => {
+        console.error('Config:', e)
+    })
+})
 
 function onDownloadPassID() {
     let filename = ''
@@ -37,7 +53,7 @@ function onDownloadPassID() {
 <template>
     <div class="container">
 
-        <div class="card text-bg-dark">
+        <div v-if="gen_idents_enabled" class="card text-bg-dark">
             <div class="card-body">
                 <h3>Identyfikator</h3>
                 <p class="card-text">
@@ -51,6 +67,12 @@ function onDownloadPassID() {
                 </button>
             </div>
         </div>
+        <div v-else class="alert alert-danger" role="alert">
+            <h3>Identyfikator</h3>
+            <h6>
+                Identyfikator będzie można pobrać w późniejszym terminie, po weryfikacji wszystkich zgłoszeń przez dział parkingów.
+            </h6>
+        </div>
 
         <div class="mt-4 card text-bg-dark">
             <div class="card-body">
@@ -58,7 +80,7 @@ function onDownloadPassID() {
                 <p class="card-text">
                     Mapka pokazuje umiejscowienie wjazdu na parking dla niepełnosprawnych.
                 </p>
-                <a href="parking-niepelnosprawni-mapa.png" download="parking-niepelnosprawni-mapa.png" class="btn btn-lg btn-primary">
+                <a href="dojazd-na-parkingi-samochodowe.png" download="dojazd-na-parkingi-samochodowe.png" class="btn btn-lg btn-primary">
                     <FontAwesomeIcon :icon="faFileImage" />
                     Pobierz mapę
                 </a>
