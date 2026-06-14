@@ -18,8 +18,8 @@ const passID = ref(-1)
 <template>
     <div class="container">
         <header>
-            <!-- <img width="48" height="48" src="@/assets/Parking_icon.svg" /> -->
-            <img width="96" src="@/assets/event-logo-full.svg" />
+            <img width="48" height="48" src="@/assets/Parking_icon.svg" />
+            <!-- <img width="96" src="@/assets/event-logo-full.svg" /> -->
             <div>
                 <div class="hdr-title">Identyfikator parkingowy</div>
                 <div class="hdr-subtitle">Identyfikacja pojazdów uprawnionych do wjazdu na parking dla niepełnosprawnych</div>
