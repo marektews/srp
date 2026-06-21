@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import MainManuView from './view/MainMenuView.vue'
+import MainMenuView from './view/MainMenuView.vue'
 import LoginView from './view/LoginView.vue'
 import GenerateView from './view/create/GenerateView.vue'
 import NumberOfUsesTestView from './view/create/NumberOfUsesTestView.vue'
@@ -31,7 +31,7 @@ const passID = ref(-1)
                 v-model="congregationName"
                 @next="step = 1"
             />
-            <MainManuView v-else-if="step === 1"
+            <MainMenuView v-else-if="step === 1"
                 :congregation-name="congregationName"
                 @step="step = $event"
             />
