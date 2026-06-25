@@ -67,7 +67,7 @@ function onSendNewLimit() {
                 </h6>
 
                 <ValidityInputGroup
-                    v-model="newPlimit"
+                    v-model.number="newPlimit"
                     class="mt-3"
                     type="number"
                     title="Nowa wartość limitu"
