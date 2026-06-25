@@ -85,7 +85,7 @@ onMounted(() => {
             <div class="card-body">
                 <h5 class="card-title">Mapa dojazdu</h5>
                 <h6 class="card-subtitle my-3 text-muted">
-                    Mapka pokazuje umiejscowienie wjazdu na parking dla niepełnosprawnych.
+                    Mapka pokazuje umiejscowienie parkingów.
                 </h6>
                 <a href="dojazd-na-parkingi-samochodowe.png" download="dojazd-na-parkingi-samochodowe.png" class="btn btn-lg btn-outline-primary">
                     <FontAwesomeIcon :icon="faMap" /> Pobierz mapę

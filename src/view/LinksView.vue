@@ -78,7 +78,7 @@ function onDownloadPassID() {
             <div class="card-body">
                 <h3>Mapa dojazdu</h3>
                 <p class="card-text">
-                    Mapka pokazuje umiejscowienie wjazdu na parking dla niepełnosprawnych.
+                    Mapka pokazuje umiejscowienie parkingów.
                 </p>
                 <a href="dojazd-na-parkingi-samochodowe.png" download="dojazd-na-parkingi-samochodowe.png" class="btn btn-lg btn-primary">
                     <FontAwesomeIcon :icon="faFileImage" />
